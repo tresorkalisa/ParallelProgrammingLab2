@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <omp.h>
@@ -16,8 +17,15 @@ long add_serial(const char *numbers) {
 }
 
 long add_parallel(const char *numbers) {
-    long sum = 0;
 
+
+    int i;
+    const int N = 10000;
+    int sum = 0;
+#pragma omp parallel for private(i) reduction(+: sum)
+    for (i=0; i<N; i++) {
+        sum += i;
+    }
     return sum;
 }
 
